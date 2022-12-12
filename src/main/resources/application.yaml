@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/booking
+    url: jdbc:postgresql://localhost:5432/Modul4
     username: postgres
-    password: terrrr
+    password: 556677
   jpa:
     show_sql: true
     format_sql: true
