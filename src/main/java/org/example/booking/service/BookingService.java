@@ -22,6 +22,7 @@ public class BookingService {
         return bookingDao.findFirstByNumber(number).map(bookingMapper::castFromEntity);
     }
 
+    @Transactional
     public String createBooking(BookingDtoRq bookingDtoRq) {
         if (bookingDao.existsByStartDateAndEndDateAndRoom_Name(bookingDtoRq.getStartDate(),
                 bookingDtoRq.getEndDate(), bookingDtoRq.getRoomName())) {
