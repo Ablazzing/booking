@@ -1,6 +1,5 @@
-/*package org.example.booking.service;
+package org.example.booking;
 
-import lombok.RequiredArgsConstructor;
 import org.example.booking.dao.BookingDao;
 import org.example.booking.dao.CustomerDao;
 import org.example.booking.dao.RoomDao;
@@ -10,19 +9,26 @@ import org.example.booking.entity.Room;
 import org.example.booking.entity.RoomLevel;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.LocalDate;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
-public class InitializationBdService {
-    private final BookingDao bookingDao;
-    private final RoomDao roomDao;
-    private final CustomerDao customerDao;
+public class InitializerBdService {
 
-    @PostConstruct
+    private CustomerDao customerDao;
+
+    private RoomDao roomDao;
+
+    private BookingDao bookingDao;
+
+    @Autowired
+    public InitializerBdService(CustomerDao customerDao, RoomDao roomDao, BookingDao bookingDao) {
+        this.customerDao = customerDao;
+        this.roomDao = roomDao;
+        this.bookingDao = bookingDao;
+    }
+
+    @Transactional
     public void init() {
         Customer customer = new Customer("Petr", "222@gmail.com");
         customerDao.save(customer);
@@ -34,4 +40,11 @@ public class InitializationBdService {
                 customer);
         bookingDao.save(booking);
     }
-}*/
+
+    @Transactional
+    public void destroy() {
+        bookingDao.deleteAll();
+        roomDao.deleteAll();
+        customerDao.deleteAll();
+    }
+}

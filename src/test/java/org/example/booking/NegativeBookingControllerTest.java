@@ -1,19 +1,39 @@
 package org.example.booking;
 
-import io.restassured.common.mapper.TypeRef;
+import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
-import org.example.booking.dto.BookingDtoRs;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.time.LocalDate;
-import java.util.List;
-
+import org.springframework.boot.test.web.server.LocalServerPort;
 import static io.restassured.RestAssured.given;
 
-@SpringBootTest
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class NegativeBookingControllerTest {
+
+    @LocalServerPort
+    private int port;
+
+    private final InitializerBdService initializerBdService;
+
+    @Autowired
+    public NegativeBookingControllerTest(InitializerBdService initializerBdService) {
+        this.initializerBdService = initializerBdService;
+    }
+
+    @BeforeEach
+    public void init(){
+        initializerBdService.init();
+        RestAssured.baseURI = "http://localhost:" + port;
+    }
+
+    @AfterEach
+    public void destroy(){
+        initializerBdService.destroy();
+    }
 
     @Test
     public void negativeGetBookingByCustomerByNumber() {

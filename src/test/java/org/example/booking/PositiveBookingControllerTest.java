@@ -3,33 +3,36 @@ package org.example.booking;
 import io.restassured.RestAssured;
 import io.restassured.common.mapper.TypeRef;
 import io.restassured.http.ContentType;
-import org.example.booking.dao.BookingDao;
-import org.example.booking.dao.CustomerDao;
-import org.example.booking.dao.RoomDao;
 import org.example.booking.dto.BookingDtoRs;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.test.annotation.DirtiesContext;
-
 import java.time.LocalDate;
 import java.util.List;
-
 import static io.restassured.RestAssured.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class PositiveBookingControllerTest {
 
     @LocalServerPort
     private int port;
 
+    private final InitializerBdService initializerBdService;
+
+    @Autowired
+    public PositiveBookingControllerTest(InitializerBdService initializerBdService) {
+        this.initializerBdService = initializerBdService;
+    }
+
     @BeforeEach
     public void init() {
         RestAssured.baseURI = "http://localhost:" + port;
+        initializerBdService.init();
+    }
+    @AfterEach
+    public void destroy(){
+        initializerBdService.destroy();
     }
 
     @Test
@@ -41,7 +44,6 @@ public class PositiveBookingControllerTest {
                 .endDate(LocalDate.of(2000, 1, 2))
                 .customerName("Petr")
                 .build();
-
         List<BookingDtoRs> actual = given()
                 .accept(ContentType.JSON)
                 .when()
@@ -66,7 +68,6 @@ public class PositiveBookingControllerTest {
                 .endDate(LocalDate.of(2000, 1, 2))
                 .customerName("Petr")
                 .build();
-
         BookingDtoRs actual = given()
                 .accept(ContentType.JSON)
                 .when()

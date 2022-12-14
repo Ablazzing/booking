@@ -2,6 +2,7 @@ package org.example.booking.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.example.booking.dao.BookingDao;
 import org.example.booking.dto.BookingDtoRq;
 import org.example.booking.dto.BookingDtoRs;
 import org.example.booking.service.BookingService;
@@ -72,5 +73,4 @@ public class BookingController {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
-
 }
