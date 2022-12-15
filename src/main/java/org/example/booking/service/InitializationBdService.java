@@ -1,4 +1,4 @@
-package org.example.booking.service;
+/*package org.example.booking.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.booking.dao.BookingDao;
@@ -33,4 +33,4 @@ public class InitializationBdService {
                 customer);
         bookingDao.save(booking);
     }
-}
+}*/
