@@ -1,5 +1,6 @@
 package org.example.booking.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -34,10 +35,12 @@ public class Booking {
     @ManyToOne
     @JoinColumn(name = "room_id", nullable = false)
     @NonNull
+    @JsonIgnore
     private Room room;
 
     @ManyToOne
     @JoinColumn(name = "customer_id", nullable = false)
     @NonNull
+    @JsonIgnore
     private Customer customer;
 }
